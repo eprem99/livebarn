@@ -1,0 +1,2 @@
+[22-Jul-2022 15:38:14 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/uyewlomsn13q/public_html/vendor/dompdf/dompdf/src/Frame.php on line 198
+[27-Jul-2022 06:38:35 UTC] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /home/uyewlomsn13q/public_html/vendor/dompdf/dompdf/src/Frame.php on line 208
