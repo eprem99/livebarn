@@ -54,36 +54,5 @@
                 <button class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light" type="submit">@lang('app.login')</button>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-                <script>
-                    var facebook = "{{ route('social.login', 'facebook') }}";
-                    var google = "{{ route('social.login', 'google') }}";
-                    var twitter = "{{ route('social.login', 'twitter') }}";
-                    var linkedin = "{{ route('social.login', 'linkedin') }}";
-                </script>
-                <div class="social mb-16">
-                    @if($socialAuthSettings->facebook_status == 'enable')
-                        <a href="javascript:;" class="btn btn-facebook" data-toggle="tooltip" title="Login with Facebook" onclick="window.location.href = facebook;" data-original-title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook-f"></i> </a>
-                    @endif
-                    @if($socialAuthSettings->google_status == 'enable')
-                        <a href="javascript:;" class="btn btn-google" data-toggle="tooltip" title="Login with Google" onclick="window.location.href = google;" data-original-title="Login with Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </a>
-                    @endif
-                    @if($socialAuthSettings->twitter_status == 'enable')
-                        <a href="javascript:;" class="btn btn-twitter" data-toggle="tooltip" title="Login with twitter" onclick="window.location.href = twitter;" data-original-title="Login with Google"> <i aria-hidden="true" class="fa fa-twitter"></i> </a>
-                    @endif
-                    @if($socialAuthSettings->linkedin_status == 'enable')
-                        <a href="javascript:;" class="btn btn-linkedin" data-toggle="tooltip" title="Login with linkedin" onclick="window.location.href = linkedin;" data-original-title="Login with Linkedin"> <i aria-hidden="true" class="fa fa-linkedin"></i> </a>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        {{--<div class="form-group m-b-0">--}}
-            {{--<div class="col-sm-12 text-center">--}}
-                {{--<p>Don't have an account? <a href="{{ route('register') }}" class="text-primary m-l-5"><b>Sign Up</b></a></p>--}}
-            {{--</div>--}}
-        {{--</div>--}}
     </form>
 @endsection

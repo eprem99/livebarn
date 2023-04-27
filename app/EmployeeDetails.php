@@ -3,13 +3,11 @@
 namespace App;
 
 use App\Observers\EmployeeDetailsObserver;
-use App\Traits\CustomFieldsTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class EmployeeDetails extends BaseModel
 {
-  //  use CustomFieldsTrait;
 
     protected $table = 'employee_details';
 

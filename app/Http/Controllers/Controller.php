@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\SocialAuthSetting;
 use Carbon\Carbon;
 use Froiden\Envato\Traits\AppBoot;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -56,12 +55,6 @@ class Controller extends BaseController
                 return \App\Setting::with('currency')->first();
             }
         );
-        $this->gdpr = cache()->remember(
-            'gdpr-setting', 60*60*24, function () {
-                return \App\GdprSetting::first();
-            }
-        );
-        $this->socialAuthSettings = SocialAuthSetting::first();
 
         $this->middleware(function ($request, $next) {
 
@@ -77,9 +70,6 @@ class Controller extends BaseController
                 config(['app.debug' => $this->global->app_debug]);
             }
 
-            if (auth()->user()) {
-                config(['froiden_envato.allow_users_id' => true]);
-            }
             return $next($request);
         });
     }

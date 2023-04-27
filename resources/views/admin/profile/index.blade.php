@@ -235,38 +235,6 @@
             return "{{ __('messages.noRecordFound') }}";
         }
     });
- //    $( "#country" ).change(function() {
- //        var id = $(this).val();
- //        var url = "{{ route('admin.company.country',':id') }}";
- //        url = url.replace(':id', id);
- //        $.easyAjax({
- //            url: url,
- //            type: "GET",
- //            data: $('#updateProfile').serialize(),
- //            success: function (data) {
- //            //   alert(data.data)
- //                $('#state').html(data.data);
- //            }
- //        })
- //    });
- //        jQuery(document).ready(function($) {
- //        $.each($('#country option:selected'), function(){            
- //            var id = $(this).val();
- //        var url = "{{ route('admin.company.country',':id') }}";
- //        url = url.replace(':id', id);
- //        $.easyAjax({
- //            url: url,
- //            type: "GET",
- //            redirect: true,
- //            data: $('').serialize(),
- //            success: function (data) {
- //            //  alert(data.data)
- //                $('#state').html(data.data);
-                
- //            }
- //        })
- //        });
-	// }); 
     $('#save-form-2').click(function () {
         $.easyAjax({
             url: '{{route('member.profile.update', [$userDetail->id])}}',

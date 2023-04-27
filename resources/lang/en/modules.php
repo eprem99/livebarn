@@ -1257,22 +1257,6 @@ return array(
     'sendNotificationsTo' => 'Send Reminder To',
   ),
   'loginAgain' => 'You will have to login again to see the changes.',
-  'gdpr' =>
-  array(
-    'gdpr' => 'GDPR',
-    'customers' => 'Customers',
-    'purpose' => 'Purpose',
-    'ipAddress' => 'IP Address',
-    'staffMember' => 'Staff Member',
-    'additionalDescription' => 'Additional Description',
-    'purposeDescription' => 'Purpose Description',
-    'optIn' => 'OPT IN',
-    'optOut' => 'OPT OUT',
-    'consent' => 'Consent',
-    'requestDataRemoval' => 'Request Data Removal',
-    'dataRemovalDescription' => 'Briefly describe the purpose of removal of data',
-    'removalRequestSuccess' => 'Removal request has been sent to the admin. You will informed once it is approved',
-  ),
   'contracts' =>
   array(
     'createContract' => 'Create Contract',

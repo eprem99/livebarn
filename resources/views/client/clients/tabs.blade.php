@@ -11,10 +11,6 @@
             </li>
             <li class="clientPayments"><a href="{{ route('admin.clients.payments', $client->id) }}"><i class="ti-receipt"></i> <span>@lang('app.menu.payments')</span></a>
             </li>
-            @if($gdpr->enable_gdpr)
-            <li class="clientGdpr"><a href="{{ route('admin.clients.gdpr', $client->id) }}"><i class="icon-lock"></i> <span>@lang('modules.gdpr.gdpr')</span></a>
-            </li>
-            @endif
         </ul>
     </nav>
 </div>

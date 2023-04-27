@@ -371,19 +371,6 @@ if (!function_exists('download_local_s3')) {
     }
 }
 
-
-if (!function_exists('gdpr_setting')) {
-
-    function gdpr_setting()
-    {
-        if (!session()->has('gdpr_setting')) {
-            session(['gdpr_setting' => \App\GdprSetting::first()]);
-        }
-
-        return session('gdpr_setting');
-    }
-}
-
 if (!function_exists('invoice_setting')) {
 
     function invoice_setting()

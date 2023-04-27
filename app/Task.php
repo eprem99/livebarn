@@ -3,14 +3,12 @@
 namespace App;
 
 use App\Observers\TaskObserver;
-use App\Traits\CustomFieldsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class Task extends BaseModel
 {
     use Notifiable;
-    use CustomFieldsTrait;
 
     protected static function boot()
     {

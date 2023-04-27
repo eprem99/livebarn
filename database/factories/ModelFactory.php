@@ -35,37 +35,8 @@ $factory->define(App\Notice::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Project::class, function (Faker\Generator $faker) {
-    $projectArray = [
-        'Create Design',
-        'Bug Fixes',
-        'Install Application',
-        'Tars',
-        'Picard',
-        'Cli-twitter',
-        'Modify Application',
-        'Odyssey',
-        'Angkor',
-        'Server Installation',
-        'Web Installation',
-        'Project Management',
-        'User Management',
-        'Eyeq',
-        'School Management',
-        'Restaurant Management',
-        'Examination System Project',
-        'Cinema Ticket Booking System',
-        'Airline Reservation System',
-        'Website Copier Project',
-        'Chat Application',
-        'Payment Billing System',
-        'Identification System',
-        'Document management System',
-        'Live Meeting'
-    ];
 
     $startDate = \Carbon\Carbon::now()->subMonth($faker->numberBetween(1, 6));
-    $categoryId = \App\ProjectCategory::inRandomOrder()->first()->id;
     $currencyId = \App\Currency::first()->id;
 
     $clientId = \App\User::join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -82,7 +53,6 @@ $factory->define(App\Project::class, function (Faker\Generator $faker) {
         'start_date' => $startDate->format('Y-m-d'),
         'deadline' => $startDate->addMonth(4)->format('Y-m-d'),
         'notes' => $faker->paragraph,
-        'category_id' => $categoryId,
         'currency_id' => $currencyId,
         'client_id' => $clientId->id,
         'completion_percent' => $faker->numberBetween(40, 100),
@@ -116,20 +86,6 @@ $factory->define(App\Ticket::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Leave::class, function (Faker\Generator $faker) {
-
-    $employees = User::allEmployees()->pluck('id')->toArray();
-    $leaveType = \App\LeaveType::all()->pluck('id')->toArray();
-
-    return [
-        'user_id' => $faker->randomElement($employees),
-        'leave_type_id' => $faker->randomElement($leaveType),
-        'duration' => $faker->randomElement(['single', 'multiple']),
-        'leave_date' => $faker->dateTimeThisMonth(Carbon\Carbon::now()),
-        'reason' => $faker->realText(200),
-        'status' => $faker->randomElement(['pending', 'approved', 'rejected']),
-    ];
-});
 
 $factory->define(App\Event::class, function (Faker\Generator $faker) {
     return [
@@ -153,64 +109,5 @@ $factory->define(App\Expense::class, function (Faker\Generator $faker) {
         'currency_id' => 1,
         'user_id' => $faker->randomElement($employees),
         'status' => $faker->randomElement(['approved', 'pending', 'rejected']),
-    ];
-});
-
-$factory->define(App\Product::class, function (Faker\Generator $faker) {
-    $productArray = [
-        'Tars',
-        'Picard',
-        'Cli-twitter',
-        'Modify Application',
-        'Odyssey',
-        'Angkor',
-        'Server Installation',
-        'Web Installation',
-        'Project Management',
-        'User Management',
-        'Eyeq',
-        'School Management',
-        'Restaurant Management',
-        'Examination System Project',
-        'Cinema Ticket Booking System',
-        'Airline Reservation System',
-        'Website Copier Project',
-        'Chat Application',
-        'Payment Billing System',
-        'Identification System',
-        'Document management System',
-        'Live Meeting'
-    ];
-
-    return [
-        'name' => $faker->randomElement($productArray),
-        'price' => $faker->numberBetween(100, 1000),
-        'allow_purchase' => 1,
-        'description' => $faker->paragraph,
-    ];
-});
-
-$factory->define(App\Contract::class, function (Faker\Generator $faker) {
-    return [
-        'subject' => $faker->realText(20),
-        'amount' => $amount = $faker->numberBetween(100, 1000),
-        'original_amount' => $amount,
-        'start_date' => $start = $faker->dateTimeThisMonth(Carbon\Carbon::now()),
-        'original_start_date' => $start,
-        'end_date' => $end = Carbon\Carbon::now()->addMonth($faker->numberBetween(1, 5))->format('Y-m-d'),
-        'original_end_date' => $end,
-        'description' => $faker->paragraph,
-        'contract_detail' => $faker->realText(300),
-    ];
-});
-$factory->define(App\Lead::class, function (Faker\Generator $faker) {
-    return [
-        'company_name' => $faker->company,
-        'address' => $faker->address,
-        'client_name' => $faker->name,
-        'client_email' => $faker->email,
-        'mobile' => $faker->randomNumber(8),
-        'note' => $faker->realText(200),
-        'next_follow_up' => 'yes',
     ];
 });

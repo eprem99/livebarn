@@ -3,22 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DashboardWidget;
-use App\DataTables\Admin\EstimatesDataTable;
-use App\DataTables\Admin\ExpensesDataTable;
-use App\DataTables\Admin\InvoicesDataTable;
-use App\DataTables\Admin\PaymentsDataTable;
-use App\DataTables\Admin\ProposalDataTable;
-use App\Designation;
 use App\EmployeeDetails;
 use App\ClientDetails;
-use App\Expense;
 use App\Helper\Reply;
-use App\Invoice;
-use App\Lead;
-use App\LeadSource;
-use App\LeadStatus;
-use App\Leave;
-use App\Payment;
 use App\Task;
 use App\TaskboardColumn;
 use App\Team;
@@ -26,7 +13,6 @@ use App\Traits\CurrencyExchange;
 use App\User;
 use App\UserActivity;
 use Carbon\Carbon;
-use Exception;
 use Froiden\Envato\Traits\AppBoot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,27 +46,19 @@ class AdminDashboardController extends AdminBaseController
             ->select(
                 DB::raw('(select count(users.id) from `users` inner join role_user on role_user.user_id=users.id inner join roles on roles.id=role_user.role_id WHERE roles.name = "client") as totalClients'),
                 DB::raw('(select count(users.id) from `users` inner join role_user on role_user.user_id=users.id inner join roles on roles.id=role_user.role_id WHERE roles.name = "employee" and users.status = "active") as totalEmployees'),
-                DB::raw('(select count(invoices.id) from `invoices` where status = "unpaid") as totalUnpaidInvoices'),
                 DB::raw('(select count(tasks.id) from `tasks` where tasks.board_column_id=' . $completedTaskColumn->id . ') as totalCompletedTasks'),
                 DB::raw('(select count(tasks.id) from `tasks` where tasks.board_column_id != ' . $completedTaskColumn->id . ') as totalPendingTasks')
             )
             ->first();
-          // dd(Carbon::today()->timezone($this->global->timezone)->format('Y-m-d'));
             $from = date('Y-m-d', strtotime('-1 day'));
-           // $today = Carbon::now()->format('Y-m-d');
-      //  dd(Carbon::today()->timezone($this->global->timezone)->format('d-m-Y'));
             $this->pendingTasks = Task::with('labels')
             ->where('tasks.board_column_id', '<>', '1')
-          //  ->where('created_at', '>=', $from)
-           // ->where(DB::raw('DATE(due_date)'), '<=', Carbon::now()->timezone($this->global->timezone)->format('Y-m-d'))
-           // ->whereRaw('tasks.start_date = CURDATE()')
-           ->where('tasks.start_date', 'LIKE', Carbon::today()->format('Y-m-d'))
+            ->where('tasks.start_date', 'LIKE', Carbon::today()->format('Y-m-d'))
             ->orderBy('id', 'desc')
             ->get();
           
             $this->newTasks = Task::with('labels')
             ->where('board_column_id', '=', '1')
-           // ->where('created_at', '>=', $from)
             ->orderBy('id', 'desc')
             ->get();
 
@@ -99,11 +77,7 @@ class AdminDashboardController extends AdminBaseController
         $this->isCheckScript();
 
         $exists = Storage::disk('storage')->exists('down');
-
-        if ($exists && is_null($this->global->purchase_code)) {
-            return redirect(route('verify-purchase'));
-        }
-        
+       
         $this->tasks = Task::with('board_column')->select('tasks.*')
             ->join('task_users', 'task_users.task_id', '=', 'tasks.id')
             ->where('tasks.start_date', '!=', null)
@@ -218,7 +192,8 @@ public function filter(Request $request)
                 ->limit(10)
                 ->orderBy('users.last_login', 'desc')
                 ->get();
-            // dd($this->recentLoginActivities);
+
+                
             $this->latestClient = User::withoutGlobalScope('active')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
@@ -259,7 +234,6 @@ public function filter(Request $request)
                 $this->toDate = Carbon::createFromFormat($this->global->date_format, $request->endDate)->toDateString();
             }
 
-            $this->totalLeavesApproved = Leave::whereBetween(DB::raw('DATE(`updated_at`)'), [$this->fromDate, $this->toDate])->where('status', 'approved')->get()->count();
             $this->totalNewEmployee = EmployeeDetails::whereBetween(DB::raw('DATE(`joining_date`)'), [$this->fromDate, $this->toDate])->get()->count();
             $this->totalEmployeeExits = EmployeeDetails::whereBetween(DB::raw('DATE(`last_date`)'), [$this->fromDate, $this->toDate])->get()->count();
 
@@ -267,19 +241,6 @@ public function filter(Request $request)
                 ->whereBetween(DB::raw('DATE(employee_details.`created_at`)'), [$this->fromDate, $this->toDate])
                 ->select(DB::raw('count(employee_details.id) as totalEmployee'), 'teams.team_name')
                 ->groupBy('teams.team_name')
-                ->get()->toJson();
-
-            $this->designationWiseEmployee = Designation::join('employee_details', 'employee_details.designation_id', 'designations.id')
-                ->whereBetween(DB::raw('DATE(employee_details.`created_at`)'), [$this->fromDate, $this->toDate])
-                ->select(DB::raw('count(employee_details.id) as totalEmployee'), 'designations.name')
-                ->groupBy('designations.name')
-                ->get()->toJson();
-
-            $this->genderWiseEmployee = EmployeeDetails::whereBetween(DB::raw('DATE(employee_details.`created_at`)'), [$this->fromDate, $this->toDate])
-                ->join('users', 'users.id', 'employee_details.user_id')
-                ->select(DB::raw('count(employee_details.id) as totalEmployee'), 'users.gender')
-                ->groupBy('users.gender')
-                ->orderBy('users.gender', 'ASC')
                 ->get()->toJson();
 
             $this->roleWiseEmployee = EmployeeDetails::whereBetween(DB::raw('DATE(employee_details.`created_at`)'), [$this->fromDate, $this->toDate])
@@ -292,37 +253,6 @@ public function filter(Request $request)
                 ->orderBy('roles.name', 'ASC')
                 ->get()->toJson();
 
-            $attandance = EmployeeDetails::join('users', 'users.id', 'employee_details.user_id')
-                ->join('attendances', 'attendances.user_id', 'users.id')
-                ->whereBetween(DB::raw('DATE(attendances.`clock_in_time`)'), [$this->fromDate, $this->toDate])
-                ->select(DB::raw('count(users.id) as employeeCount'), DB::raw('DATE(attendances.clock_in_time) as date'))
-                ->groupBy('date')
-                ->get();
-            try {
-                $this->averageAttendance = number_format(((array_sum(array_column($attandance->toArray(), 'employeeCount')) / $attandance->count()) * 100) / User::allEmployees()->count(), 2) . '%';
-            } catch (Exception $e) {
-                $this->averageAttendance = '0%';
-            }
-
-            $this->leavesTakens = EmployeeDetails::join('users', 'users.id', 'employee_details.user_id')
-                ->join('leaves', 'leaves.user_id', 'users.id')
-                ->whereBetween(DB::raw('DATE(leaves.`leave_date`)'), [$this->fromDate, $this->toDate])
-                ->where('leaves.status', 'approved')
-                ->select(DB::raw('count(leaves.id) as employeeLeaveCount'), 'users.name', 'users.id', 'users.image')
-                ->groupBy('users.id')
-                ->orderBy('employeeLeaveCount', 'DESC')
-                ->get();
-
-            $this->lateAttendanceMarks = EmployeeDetails::join('users', 'users.id', 'employee_details.user_id')
-                ->join('attendances', 'attendances.user_id', 'users.id')
-                ->whereBetween(DB::raw('DATE(attendances.`clock_in_time`)'), [$this->fromDate, $this->toDate])
-                ->where('late', 'yes')
-                ->select(DB::raw('count(attendances.id) as employeeLateCount'), 'users.id', 'users.name', 'users.image')
-                ->groupBy('users.id')
-                ->orderBy('employeeLateCount', 'DESC')
-                ->get();
-
-            // dd($lateMarksCount);
 
             $view = view('admin.dashboard.hr-dashboard', $this->data)->render();
             return Reply::dataOnly(['view' => $view]);

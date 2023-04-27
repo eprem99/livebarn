@@ -8,18 +8,13 @@ use App\Helper\Reply;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientRequest;
-use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
 use App\TaskboardColumn;
-use App\ClientCategory;
-use App\Invoice;
-use App\Payment;
 use App\Traits\CurrencyExchange;
 use App\UniversalSearch;
 use App\User;
 use App\Task;
 use App\State;
 use App\Country;
-use App\ContractType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -52,11 +47,9 @@ class ManageClientsController extends AdminBaseController
         if (!request()->ajax()) {
             $this->clients = User::allClients();
             $this->tasks = Task::all();
-         //   $this->contracts = ContractType::all();
             $this->countries = Country::all();
 
             $this->totalClients = count($this->clients);
-          //  dd($this->totalClients);
         }
 
         return $dataTable->render('admin.clients.index', $this->data);
@@ -72,7 +65,6 @@ class ManageClientsController extends AdminBaseController
         $this->countries = Country::all();
 
         $client = new ClientDetails();
-        $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
 
         if (request()->ajax()) {
             return view('admin.clients.ajax-create', $this->data);

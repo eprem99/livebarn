@@ -2,12 +2,10 @@
 
 namespace App;
 
-use App\Traits\CustomFieldsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ClientDetails extends BaseModel
 {
-    use CustomFieldsTrait;
 
     protected $fillable = [
         'user_id',

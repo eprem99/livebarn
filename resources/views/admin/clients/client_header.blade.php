@@ -17,10 +17,6 @@
                                             <p>
                                                 <span class="font-medium text-info font-semi-bold">{{ ucwords($client->name) }}</span>
                                                 <br>
-
-                                                @if (!empty($client->client_details) && $clientDetail->clientCategory->category_name != '')
-                                                   <span class="text-muted">{{ $clientDetail->clientCategory->category_name }}</span>  
-                                                @endif
                                             </p>
                                             
                                             <p class="font-12">

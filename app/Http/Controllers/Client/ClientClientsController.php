@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\DataTables\Admin\ClientsDataTable;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientRequest;
-use App\Http\Requests\Gdpr\SaveConsentUserDataRequest;
 use App\User;
 use App\ClientCategory;
 use App\Country;

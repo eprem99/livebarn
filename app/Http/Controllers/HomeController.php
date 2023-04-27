@@ -4,18 +4,10 @@ namespace App\Http\Controllers;
 
 use App\ClientDetails;
 use App\EmployeeDetails;
-use App\CreditNotes;
 use App\Http\Requests\TicketForm\StoreTicket;
 use App\Invoice;
 use App\InvoiceItems;
 use App\InvoiceSetting;
-use App\OfflinePaymentMethod;
-use App\Payment;
-use App\PaymentGatewayCredentials;
-use App\Project;
-use App\Proposal;
-use App\ProposalItem;
-use App\ProposalSign;
 use App\Task;
 use App\Ticket;
 use App\TicketCustomForm;
@@ -28,11 +20,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Reply;
-use App\Http\Requests\Lead\StorePublicLead;
-use App\Http\Requests\Lead\StoreRequest;
-use App\Lead;
-use App\LeadCustomForm;
-use App\LeadStatus;
 use App\PusherSetting;
 use App\Setting;
 use App\TaskboardColumn;
@@ -42,7 +29,6 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Hash;
 use Nwidart\Modules\Facades\Module;
-use Stripe\Stripe;
 use GuzzleHttp\Client;
 
 class HomeController extends Controller
@@ -866,12 +852,9 @@ class HomeController extends Controller
 
         $pdf = app('dompdf.wrapper');
 
-        $this->payments = Payment::with(['offlineMethod'])->where('invoice_id', $this->invoice->id)->where('status', 'complete')->orderBy('paid_on', 'desc')->get();
-
         $pdf->getDomPDF()->set_option("enable_php", true);
         App::setLocale($this->invoiceSetting->locale);
         Carbon::setLocale($this->invoiceSetting->locale);
-        $this->fields = $this->invoice->getCustomFieldGroupsWithFields()->fields;
 
         $pdf->loadView('invoices.' . $this->invoiceSetting->template, $this->data);
 

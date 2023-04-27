@@ -382,7 +382,6 @@ return array (
   'languageUpdated' => 'Language updated successfully',
   'updatedSuccessfully' => 'Updated successfully',
   'languageDeleted' => 'Language deleted successfully',
-  'gdprUpdated' => 'GDPR setting successfully updated',
   'officeTimeOver' => 'Office hours have passed. You cannot mark attendance for today now.',
   'loginAgain' => 'You will have to login again to see the changes.',
   'invoiceCanNotDeleted' => 'Invalid Request You can not delete this invoice',

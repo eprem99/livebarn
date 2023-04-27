@@ -3,24 +3,18 @@
 namespace App\Http\Controllers\Member;
 
 use App\Country;
-use App\Designation;
 use App\EmployeeDetails;
 use App\EmployeeDocs;
-use App\EmployeeSkill;
 use App\Helper\Reply;
 use App\Http\Requests\Member\Employee\StoreRequest;
 use App\Http\Requests\Member\Employee\UpdateRequest;
 use App\Notifications\NewUser;
-use App\Project;
-use App\ProjectTimeLog;
 use App\Role;
-use App\Skill;
 use App\Task;
 use App\TaskboardColumn;
 use App\Team;
 use App\User;
 use App\UserActivity;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -145,10 +139,8 @@ class MemberEmployeesController extends MemberBaseController
         if ($this->userDetail->hasRole('admin')) {
             abort(403);
         }
-        $this->skills = Skill::all()->pluck('name')->toArray();
         $this->employeeDetail = EmployeeDetails::where('user_id', '=', $this->userDetail->id)->first();
         $this->teams  = Team::all();
-        $this->designations = Designation::all();
         if (!is_null($this->employeeDetail)) {
             $this->employeeDetail = $this->employeeDetail->withCustomFields();
             $this->fields = $this->employeeDetail->getCustomFieldGroupsWithFields()->fields;

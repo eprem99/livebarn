@@ -239,8 +239,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->join('employee_details', 'employee_details.user_id', '=', 'users.id')
-                ->leftJoin('designations', 'employee_details.designation_id', '=', 'designations.id')
-                ->select('users.id', 'users.name', 'users.email', 'users.created_at', 'users.image', 'users.status', 'designations.name as designation_name', 'users.email_notifications', 'users.mobile', 'users.country_id')
+                ->select('users.id', 'users.name', 'users.email', 'users.created_at', 'users.image', 'users.status', 'users.email_notifications', 'users.mobile', 'users.country_id')
                 ->where('users.status', '!=', 'deactive')
                 ->where('roles.name', '<>', 'client')
                 ->where('users.id', '<>', $exceptId);
@@ -257,8 +256,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->join('roles', 'roles.id', '=', 'role_user.role_id')
                     ->join('employee_details', 'employee_details.user_id', '=', 'users.id')
-                    ->leftJoin('designations', 'employee_details.designation_id', '=', 'designations.id')
-                    ->select('users.id', 'users.name', 'users.email', 'users.created_at', 'users.image', 'designations.name as designation_name', 'users.email_notifications', 'users.mobile', 'users.country_id')
+                    ->select('users.id', 'users.name', 'users.email', 'users.created_at', 'users.image', 'users.email_notifications', 'users.mobile', 'users.country_id')
                     ->where('roles.name', '<>', 'client')
                     ->where('users.status', '!=', 'deactive');
                 if (!is_null($exceptId)) {

@@ -7,8 +7,6 @@ use App\Events\TaskReminderEvent;
 use App\Helper\Reply;
 use App\Http\Requests\Tasks\StoreTask;
 use App\Pinned;
-use App\Project;
-use App\ProjectMember;
 use App\Task;
 use App\TaskboardColumn;
 use App\TaskCategory;
@@ -20,8 +18,6 @@ use App\WoType;
 use App\Country;
 use App\State;
 use App\SportType;
-use App\Setting;
-use App\Traits\ProjectProgress;
 use App\User;
 use App\ClientDetails;
 use Carbon\Carbon;
@@ -31,7 +27,6 @@ use Illuminate\Support\Facades\DB;
 
 class ManageAllTasksController extends AdminBaseController
 {
-    use ProjectProgress;
 
     public function __construct()
     {
@@ -97,7 +92,7 @@ class ManageAllTasksController extends AdminBaseController
     {
 
         $task = Task::findOrFail($id);
-        $oldStatus = TaskboardColumn::findOrFail($task->board_column_id);
+      //  $oldStatus = TaskboardColumn::findOrFail($task->board_column_id);
 
         $task->heading = $request->heading;
         if ($request->description != '') {
@@ -115,10 +110,7 @@ class ManageAllTasksController extends AdminBaseController
         }
                 
         $task->task_category_id = $request->category_id;
-      //  $task->wo_id = $request->task_type;
-       // $task->sport_id = $request->sport_type;
         $task->client_id = $request->client_id;
-      //  $task->qty = $request->task_qty;
         if($task->board_column_id != $request->status) {
             $this->logTaskActivity($task->id, $this->user->id, "statusActivity", $task->board_column_id);
         }
@@ -136,11 +128,6 @@ class ManageAllTasksController extends AdminBaseController
             $task->completed_on = null;
         }
 
-        if ($request->project_id != "all") {
-            $task->project_id = $request->project_id;
-        } else {
-            $task->project_id = null;
-        }
         $task->save();
 
         $this->logTaskActivity($task->id, $this->user->id, "updateActivity", $task->board_column_id);
@@ -165,11 +152,6 @@ class ManageAllTasksController extends AdminBaseController
         // Delete current task
         Task::destroy($id);
 
-        if (!is_null($task->project_id)) {
-            //calculate project progress if enabled
-            $this->calculateProjectProgress($task->project_id);
-        }
-
         return Reply::success(__('messages.taskDeletedSuccessfully'));
     }
 
@@ -191,7 +173,6 @@ class ManageAllTasksController extends AdminBaseController
         $this->taskboardColumns = TaskboardColumn::orderBy('priority', 'asc')->get();
 
         $task = new Task();
-        $this->fields = $task->getCustomFieldGroupsWithFields()->fields;
         return view('admin.tasks.create', $this->data);
     }
 
@@ -276,7 +257,6 @@ class ManageAllTasksController extends AdminBaseController
 
     public function ajaxCreate($columnId)
     {
-        $this->projects = Project::allProjects();
         $this->columnId = $columnId;
         $this->categories = TaskCategory::all();
         $this->employees = User::allEmployees();
@@ -308,7 +288,6 @@ class ManageAllTasksController extends AdminBaseController
         
         $this->state = State::where('id', '=', $state_id['site_state'])->first();
         $this->country = Country::where('id', '=', $this->state->country_id)->first();
-     // dd($this->country);
         $view = view('admin.tasks.show', $this->data)->render();
         return Reply::dataOnly(['status' => 'success', 'view' => $view]);
     }
@@ -335,8 +314,6 @@ class ManageAllTasksController extends AdminBaseController
         $this->state = State::where('id', '=', $state_id['site_state'])->first();
         $this->country = Country::where('id', '=', $this->state->country_id)->first();
         $this->settings = $this->global;
-        
-    //    return view('invoices.'.$this->invoiceSetting->template, $this->data);
 
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);

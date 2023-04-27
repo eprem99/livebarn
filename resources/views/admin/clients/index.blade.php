@@ -28,7 +28,6 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables/buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datatables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}">
     <link rel="stylesheet"

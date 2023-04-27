@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ProjectActivity;
 use App\Traits\FileSystemSettingTrait;
 use App\UniversalSearch;
 use App\UserActivity;
@@ -79,13 +78,6 @@ class AdminBaseController extends Controller
         });
     }
 
-    // public function logProjectActivity($projectId, $text)
-    // {
-    //     $activity = new ProjectActivity();
-    //     $activity->project_id = $projectId;
-    //     $activity->activity = $text;
-    //     $activity->save();
-    // }
 
     public function logUserActivity($userId, $text)
     {

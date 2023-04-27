@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\GdprSetting;
 use App\LanguageSetting;
 use App\MessageSetting;
 use App\Notification;
@@ -72,7 +71,6 @@ class ClientBaseController extends Controller
             $this->clientTheme = client_theme();
             $this->languageSettings = language_setting();
             $this->messageSetting = message_setting();
-            $this->gdpr = GdprSetting::first();
 
             $this->user = user();
             $this->unreadNotificationCount = count($this->user->unreadNotifications);

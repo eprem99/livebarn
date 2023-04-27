@@ -76,8 +76,6 @@ class ManageEmployeesController extends AdminBaseController
      */
     public function create()
     {
-      //  $employee = new EmployeeDetails();
-      //  $this->fields = $employee->getCustomFieldGroupsWithFields()->fields;
 
         $this->teams = Team::all();
         $this->countries = Country::all();

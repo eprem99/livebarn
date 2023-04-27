@@ -414,8 +414,6 @@ class PublicUrlController extends Controller
         $pdf->getDomPDF()->set_option("enable_php", true);
         App::setLocale($this->invoiceSetting->locale);
         Carbon::setLocale($this->invoiceSetting->locale);
-        $this->fields = $this->invoice->getCustomFieldGroupsWithFields()->fields;
-
         $pdf->loadView('invoices.' . $this->invoiceSetting->template, $this->data);
 
         $dom_pdf = $pdf->getDomPDF();

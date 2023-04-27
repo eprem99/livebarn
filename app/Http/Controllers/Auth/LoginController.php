@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Social;
-use App\Traits\SocialAuthSettings;
 use App\User;
 use Froiden\Envato\Traits\AppBoot;
 use GuzzleHttp\Client;
@@ -13,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\ValidationException;
-use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -28,7 +25,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, AppBoot, SocialAuthSettings;
+    use AuthenticatesUsers, AppBoot;
 
     /**
      * Where to redirect users after login.
@@ -56,9 +53,8 @@ class LoginController extends Controller
         }
 
         $setting = $this->global;
-        $socialAuthSettings = $this->socialAuthSettings;
 
-        return view('auth.login', compact('setting', 'socialAuthSettings'));
+        return view('auth.login', compact('setting'));
     }
 
     protected function validateLogin(\Illuminate\Http\Request $request)

@@ -110,7 +110,6 @@
                 </ul>
             </li>
 
-
             @foreach($mainMenuSettings as $menu)
                 {{-- Check menu have childrens --}}
                 @if(isset($menu['children']))
