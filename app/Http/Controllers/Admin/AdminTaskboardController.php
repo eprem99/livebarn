@@ -6,7 +6,6 @@ use App\Events\TaskUpdated;
 use App\Helper\Reply;
 use App\Http\Requests\TaskBoard\StoreTaskBoard;
 use App\Http\Requests\TaskBoard\UpdateTaskBoard;
-use App\Project;
 use App\Task;
 use App\TaskboardColumn;
 use App\TaskCategory;
@@ -40,7 +39,6 @@ class AdminTaskboardController extends AdminBaseController
     {
         $this->startDate = Carbon::now()->subDays(15)->format($this->global->date_format);
         $this->endDate = Carbon::now()->addDays(15)->format($this->global->date_format);
-        $this->projects = Project::allProjects();
         $this->clients = User::allClients();
         $this->employees = User::allEmployees();
         $this->publicTaskboardLink = encrypt($this->companyName);

@@ -12,10 +12,6 @@ class Pinned extends BaseModel
       return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function project(){
-      return $this->belongsTo(Project::class, 'project_id');
-    }
-
     public function task(){
       return $this->belongsTo(Task::class, 'task_id');
     }

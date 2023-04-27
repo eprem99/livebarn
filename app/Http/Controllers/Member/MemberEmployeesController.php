@@ -29,9 +29,9 @@ class MemberEmployeesController extends MemberBaseController
         $this->pageTitle = 'app.menu.employees';
         $this->pageIcon = 'icon-user';
         $this->middleware(function ($request, $next) {
-            // if (!in_array('employees', $this->user->modules)) {
-            //     abort(403);
-            // }
+            if (!in_array('employees', $this->user->modules)) {
+                abort(403);
+            }
             return $next($request);
         });
     }
@@ -169,21 +169,6 @@ class MemberEmployeesController extends MemberBaseController
         $user->country_id = $request->input('phone_code');
         $user->save();
 
-        $tags = json_decode($request->tags);
-        if (!empty($tags)) {
-            EmployeeSkill::where('user_id', $user->id)->delete();
-            foreach ($tags as $tag) {
-                // check or store skills
-                $skillData = Skill::firstOrCreate(['name' => strtolower($tag->value)]);
-
-                // Store user skills
-                $skill = new EmployeeSkill();
-                $skill->user_id = $user->id;
-                $skill->skill_id = $skillData->id;
-                $skill->save();
-            }
-        }
-
         $employee = EmployeeDetails::where('user_id', '=', $user->id)->first();
         if (empty($employee)) {
             $employee = new EmployeeDetails();
@@ -195,11 +180,6 @@ class MemberEmployeesController extends MemberBaseController
         $employee->slack_username = $request->slack_username;
         $employee->department_id = $request->department;
         $employee->save();
-
-        // To add custom fields data
-        if ($request->get('custom_fields_data')) {
-            $employee->updateCustomFieldData($request->get('custom_fields_data'));
-        }
 
         return Reply::redirect(route('member.employees.index'), __('messages.employeeUpdated'));
     }

@@ -63,7 +63,6 @@ class AdminBaseController extends Controller
             $this->smtpSetting = smtp_setting();
             $this->mainMenuSettings = main_menu_settings();
             $this->subMenuSettings = sub_menu_settings();
-            $this->invoiceSetting = invoice_setting();
             $this->menuInnerSettingMenu = $this->innerSettingMenu();
             
             $this->user = user();
@@ -71,8 +70,6 @@ class AdminBaseController extends Controller
             $this->unreadNotificationCount = count($this->user->unreadNotifications);
 
             $this->stickyNotes = $this->user->sticky;
-
-            $this->worksuitePlugins = worksuite_plugins();
 
             return $next($request);
         });

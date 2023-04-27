@@ -143,16 +143,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasOne(ClientDetails::class, 'user_id');
     }
 
-    public function lead()
-    {
-        return $this->hasOne(Lead::class, 'user_id');
-    }
-
-    public function attendance()
-    {
-        return $this->hasMany(Attendance::class, 'user_id');
-    }
-
     public function employee()
     {
         return $this->hasMany(EmployeeDetails::class, 'user_id');
@@ -161,11 +151,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function employeeDetail()
     {
         return $this->hasOne(EmployeeDetails::class, 'user_id');
-    }
-
-    public function projects()
-    {
-        return $this->hasMany(Project::class, 'client_id');
     }
 
     public function member()
@@ -178,21 +163,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasMany(RoleUser::class, 'user_id');
     }
 
-    public function attendee()
-    {
-        return $this->hasMany(EventAttendee::class, 'user_id');
-    }
-
-    public function agent()
-    {
-        return $this->hasMany(TicketAgentGroups::class, 'agent_id');
-    }
-
-    public function lead_agent()
-    {
-        return $this->hasMany(LeadAgent::class, 'user_id');
-    }
-
     public function group()
     {
         return $this->hasMany(EmployeeTeam::class, 'user_id');
@@ -203,15 +173,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasOne(Country::class, 'id', 'country_id');
     }
 
-    public function skills()
-    {
-        return EmployeeSkill::select('skills.name')->join('skills', 'skills.id', 'employee_skills.skill_id')->where('user_id', $this->id)->pluck('name')->toArray();
-    }
-
-    public function leaveTypes()
-    {
-        return $this->hasMany(EmployeeLeaveQuota::class);
-    }
 
     public static function allClients()
     {
@@ -390,11 +351,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return false;
     }
 
-    public function getModulesAttribute()
-    {
-        return user_modules();
-    }
-
     public function sticky()
     {
         return $this->hasMany(StickyNote::class, 'user_id')->orderBy('updated_at', 'desc');
@@ -458,9 +414,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 
     public function getUserOtherRoleAttribute()
     {
-        if (!module_enabled('RestAPI')) {
-            return true;
-        }
         $userRole = null;
         $roles = cache()->remember(
             'non-client-roles',
@@ -486,10 +439,5 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
-    }
-
-    public function contracts()
-    {
-        return $this->hasMany(Contract::class, 'client_id', 'id');
     }
 }

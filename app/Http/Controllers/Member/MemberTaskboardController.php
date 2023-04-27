@@ -272,11 +272,11 @@ class MemberTaskboardController extends MemberBaseController
         }
 
         if ($request->draggingTaskId == 0 && $request->draggedTaskId != 0) {
-            // $this->triggerPusher('task-updated-channel', 'task-updated', $this->user->id);
+            $this->triggerPusher('task-updated-channel', 'task-updated', $this->user->id);
 
-            // $this->logTaskActivity($request->draggedTaskId, $this->user->id, "statusActivity", $task->board_column_id);
-            // $updatedTask = Task::findOrFail($request->draggedTaskId);
-            // event(new TaskUpdated($updatedTask));
+            $this->logTaskActivity($request->draggedTaskId, $this->user->id, "statusActivity", $task->board_column_id);
+            $updatedTask = Task::findOrFail($request->draggedTaskId);
+            event(new TaskUpdated($updatedTask));
         }
 
         return Reply::dataOnly(['status' => 'success']);

@@ -43,7 +43,6 @@ class ClientClientsController extends ClientBaseController
     {
         if (!request()->ajax()) {
             $this->clientDetail = ClientDetails::where('user_id', '=', $this->user->id)->first();
-            $this->categories = ClientCategory::all();
             $this->clients = User::allClients()->where('client_details.category_id', '=', $this->clientDetail->category_id);
             $this->countries = Country::all();
             $this->totalClients = count($this->clients);
@@ -63,7 +62,6 @@ class ClientClientsController extends ClientBaseController
         $this->countries = Country::all();
 
         $client = new ClientDetails();
-        $this->categories = ClientCategory::all();
         $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
 
         return view('client.clients.create', $this->data);
@@ -105,7 +103,6 @@ class ClientClientsController extends ClientBaseController
      */
     public function show($id)
     {
-        $this->categories = ClientCategory::all();
         $this->client = User::withoutGlobalScope('active')->findOrFail($id);
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
         $this->clientStats = $this->clientStats($id);
@@ -132,9 +129,7 @@ class ClientClientsController extends ClientBaseController
     {
         $this->userDetail = User::withoutGlobalScope('active')->findOrFail($id);
         $this->clientDetail = ClientDetails::where('user_id', '=', $id)->first();
-       // dd($this->clientDetail);
         $this->countries = Country::all();
-        $this->categories = ClientCategory::all();
 
         return view('client.clients.edit', $this->data);
     }
@@ -147,7 +142,6 @@ class ClientClientsController extends ClientBaseController
     public function state(Request $request, $id)
     {
         $this->clientDetail = ClientDetails::where('user_id', '=', $id)->first();
-      //  dd($this->clientDetail->state);
         if($request->country != 0 || $request->country != ''){
             $states = State::where('country_id', '=', $request->country)->get();
             $option = '' ;
@@ -212,7 +206,6 @@ class ClientClientsController extends ClientBaseController
         $client->state = $request->state;
         $client->city = $request->city;
         $client->postal_code = $request->postal_code;
-        $client->category_id = $request->category_id;
 
        $client->save();
 

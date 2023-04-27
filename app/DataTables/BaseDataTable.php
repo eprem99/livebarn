@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Product;
 use App\Setting;
 use App\User;
 use Carbon\Carbon;

@@ -13,7 +13,6 @@ use App\WoType;
 use App\SportType;
 use App\TaskFile;
 use App\TaskLabelList;
-use App\Traits\ProjectProgress;
 use App\User;
 use App\Country;
 use App\State;
@@ -24,8 +23,6 @@ use App\ClientDetails;
 
 class ClientAllTasksController extends ClientBaseController
 {
-    use ProjectProgress;
-
     public function __construct()
     {
         parent::__construct();
@@ -42,7 +39,6 @@ class ClientAllTasksController extends ClientBaseController
     public function index(AllTasksDataTable $dataTable)
     {
         if (!request()->ajax()) {
-          //  $this->projects = Project::allProjects();
             $this->clients = User::allClients();
             $this->wotype = WoType::all();
             $this->employees = User::allEmployees();
@@ -167,9 +163,6 @@ class ClientAllTasksController extends ClientBaseController
 
         Task::destroy($id);
 
-        //calculate project progress if enabled
-      //  $this->calculateProjectProgress($task->project_id);
-
         return Reply::success(__('messages.taskDeletedSuccessfully'));
     }
 
@@ -179,16 +172,6 @@ class ClientAllTasksController extends ClientBaseController
         if (!$this->user->can('add_tasks') && $this->global->task_self == 'no') {
             abort(403);
         }
-
-        // if (!$this->user->can('view_projects') && $this->global->task_self == 'yes') {
-        //     $this->projects = Project::join('project_members', 'project_members.project_id', '=', 'projects.id')
-        //         ->join('users', 'users.id', '=', 'project_members.user_id')
-        //         ->where('project_members.user_id', $this->user->id)
-        //         ->select('projects.id', 'projects.project_name')
-        //         ->get();
-        // } else {
-        //     $this->projects = Project::allProjects();
-        // }
 
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->user->id)->first();
         $this->clients = User::allClients()->where('client_details.category_id', '=', $this->clientDetail->category_id);
@@ -311,8 +294,6 @@ class ClientAllTasksController extends ClientBaseController
         $this->country = Country::where('id', '=', $this->state->country_id)->first();
         $this->settings = $this->global;
         
-    //    return view('invoices.'.$this->invoiceSetting->template, $this->data);
-
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadView('admin.tasks.download-task', $this->data);

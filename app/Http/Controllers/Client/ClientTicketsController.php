@@ -6,8 +6,6 @@ use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\Tickets\StoreTicketRequest;
 use App\Http\Requests\Tickets\UpdateTicketRequest;
-use App\ModuleSetting;
-use App\Notifications\NewTicket;
 use App\Ticket;
 use App\TicketReply;
 use App\User;

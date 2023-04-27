@@ -7,8 +7,6 @@ use App\Country;
 use App\Helper\Reply;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientRequest;
-use App\Invoice;
-use App\Lead;
 use App\Notifications\NewUser;
 use App\User;
 use Carbon\Carbon;
@@ -60,13 +58,9 @@ class MemberClientsController extends MemberBaseController
             abort(403);
         }
 
-        if ($leadID) {
-            $this->leadDetail = Lead::findOrFail($leadID);
-        }
         $this->countries = Country::all();
+        $this->client = new ClientDetails();
 
-        $client = new ClientDetails();
-        $this->fields = $client->getCustomFieldGroupsWithFields()->fields;
         return view('member.clients.create', $this->data);
     }
 
@@ -101,11 +95,6 @@ class MemberClientsController extends MemberBaseController
             $client->save();
         }
 
-        // To add custom fields data
-        if ($request->get('custom_fields_data')) {
-            $client->updateCustomFieldData($request->get('custom_fields_data'));
-        }
-
         $user->attachRole(3);
 
         //log search
@@ -113,14 +102,6 @@ class MemberClientsController extends MemberBaseController
         $this->logSearchEntry($user->id, $user->email, 'admin.clients.edit', 'client');
         if (!is_null($client->company_name)) {
             $this->logSearchEntry($user->id, $client->company_name, 'admin.clients.edit', 'client');
-        }
-
-        if ($request->has('lead')) {
-            $lead = Lead::findOrFail($request->lead);
-            $lead->client_id = $user->id;
-            $lead->save();
-
-            return Reply::redirect(route('member.leads.index'), __('messages.leadClientChangeSuccess'));
         }
 
         return Reply::redirect(route('member.clients.index'), __('messages.clientAdded'));
@@ -268,7 +249,7 @@ class MemberClientsController extends MemberBaseController
             ->editColumn(
                 'name',
                 function ($row) {
-                    return '<a href="' . route('member.clients.projects', $row->id) . '">' . ucfirst($row->name) . '</a>';
+                   
                 }
             )
             ->editColumn(
@@ -280,30 +261,6 @@ class MemberClientsController extends MemberBaseController
             ->addIndexColumn()
             ->rawColumns(['name', 'action'])
             ->make(true);
-    }
-
-    public function showProjects($id)
-    {
-        $this->client = User::withoutGlobalScope('active')->findOrFail($id);
-        return view('member.clients.projects', $this->data);
-    }
-
-    public function showInvoices($id)
-    {
-        if (!$this->user->can('view_invoices')) {
-            abort(403);
-        }
-        $this->client = User::withoutGlobalScope('active')->findOrFail($id);
-        $this->invoices = Invoice::leftJoin('projects', 'projects.id', '=', 'invoices.project_id')
-            ->join('currencies', 'currencies.id', '=', 'invoices.currency_id')
-            ->select('invoices.invoice_number', 'invoices.total', 'currencies.currency_symbol', 'invoices.issue_date', 'invoices.id')
-            ->where(function ($query) use ($id) {
-                $query->where('projects.client_id', $id)
-                    ->orWhere('invoices.client_id', $id);
-            })
-            ->get();
-
-        return view('member.clients.invoices', $this->data);
     }
 
     public function export()
@@ -339,7 +296,7 @@ class MemberClientsController extends MemberBaseController
 
             // Set the spreadsheet title, creator, and description
             $excel->setTitle('Clients');
-            $excel->setCreator('Worksuite')->setCompany($this->companyName);
+            $excel->setCreator('VECTO')->setCompany($this->companyName);
             $excel->setDescription('clients file');
 
             // Build the spreadsheet, passing in the payments array

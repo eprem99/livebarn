@@ -20,10 +20,6 @@ class Setting extends BaseModel
         return $this->belongsTo(Currency::class, 'currency_id');
     }
 
-    public function invoice_setting()
-    {
-        return $this->hasOne(InvoiceSetting::class, 'company_id');
-    }
 
     public function getIsChineseLangAttribute()
     {

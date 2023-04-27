@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers\Member;
 
-use App\Attendance;
-use App\AttendanceSetting;
-use App\Holiday;
 use App\Notice;
-use App\Project;
-use App\ProjectActivity;
-use App\ProjectTimeLog;
 use App\Task;
 use App\TaskboardColumn;
 use App\UserActivity;
@@ -23,12 +17,6 @@ class MemberDashboardController extends MemberBaseController
 
         $this->pageTitle = 'app.menu.dashboard';
         $this->pageIcon = 'icon-speedometer';
-
-        // Getting Attendance setting data
-        $this->attendanceSettings = AttendanceSetting::first();
-
-        //Getting Maximum Check-ins in a day
-        $this->maxAttendanceInDay = $this->attendanceSettings->clockin_in_day;
     }
 
     public function index()
@@ -77,8 +65,6 @@ class MemberDashboardController extends MemberBaseController
             ->where('board_column_id', '<>', $completedTaskColumn->id)
             ->where('tasks.start_date', '!=', null)
             ->where('task_users.user_id', $this->user->id);
-
-            // $this->tasks = $this->tasks->where('task_users.user_id', $this->user->id);
 
         $this->tasks =  $this->tasks->groupBy('tasks.id');
         $this->tasks =  $this->tasks->get();

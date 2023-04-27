@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Attendance;
 use App\AttendanceSetting;
-use App\Holiday;
 use App\Notice;
 use App\EmployeeDetails;
 use App\ClientDetails;
@@ -24,9 +22,6 @@ class ClientDashboardController extends ClientBaseController
 
         $this->pageTitle = 'app.menu.dashboard';
         $this->pageIcon = 'icon-speedometer';
-
-        // Getting Attendance setting data
-        $this->attendanceSettings = AttendanceSetting::first();
 
         //Getting Maximum Check-ins in a day
         $this->maxAttendanceInDay = $this->attendanceSettings->clockin_in_day;
@@ -90,8 +85,7 @@ class ClientDashboardController extends ClientBaseController
         $tasks = Task::with('board_column')->select('tasks.*')
         ->join('client_details', 'client_details.user_id', '=', 'tasks.client_id')
         ->join('task_users', 'task_users.task_id', '=', 'tasks.id')
-        ->where('tasks.start_date', '!=', null)
-        ->where('client_details.category_id', '=', $this->user->client_details->category_id);
+        ->where('tasks.start_date', '!=', null);
        // ->where('tasks.client_id', '=', user()->id);
         if($request->tech != 0){
             $tasks->where('task_users.user_id', '=', $request->tech);

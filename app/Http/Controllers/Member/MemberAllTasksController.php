@@ -13,7 +13,6 @@ use App\TaskboardColumn;
 use App\TaskFile;
 use App\User;
 use App\EmployeeDetails;
-use App\Traits\ProjectProgress;
 use App\WoType;
 use App\TaskLabelList;
 use App\Country;
@@ -66,7 +65,6 @@ class MemberAllTasksController extends MemberBaseController
             __('app.id') => ['data' => 'id', 'name' => 'id', 'visible' => false, 'exportable' => false],
             '#' => ['data' => 'id', 'name' => 'id', 'visible' => true],
             __('app.task') => ['data' => 'heading', 'name' => 'heading'],
-           // __('app.project')  => ['data' => 'project_name', 'name' => 'projects.project_name'],
             __('modules.tasks.assigned') => ['data' => 'name', 'name' => 'name', 'visible' => false],
             __('modules.tasks.assignTo') => ['data' => 'users', 'name' => 'member.name', 'exportable' => false],
             __('app.dueDate') => ['data' => 'due_date', 'name' => 'due_date'],
@@ -164,8 +162,6 @@ class MemberAllTasksController extends MemberBaseController
         $task->save();
 
         // save labels
-        // $task->labels()->sync($request->task_labels);
-
 
         // Sync task users
         $task->users()->sync($request->user_id);
@@ -299,8 +295,6 @@ class MemberAllTasksController extends MemberBaseController
         $this->country = Country::where('id', '=', $this->state->country_id)->first();
         $this->settings = $this->global;
         
-    //    return view('invoices.'.$this->invoiceSetting->template, $this->data);
-
         $pdf = app('dompdf.wrapper');
         $pdf->getDomPDF()->set_option("enable_php", true);
         $pdf->loadView('admin.tasks.download-task', $this->data);

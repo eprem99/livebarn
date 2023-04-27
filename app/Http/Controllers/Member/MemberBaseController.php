@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Member;
 
 use App\EmailNotificationSetting;
 use App\Notification;
-use App\ProjectActivity;
-use App\ProjectTimeLog;
 use App\Role;
 use App\Setting;
 use App\StickyNote;
@@ -107,22 +105,11 @@ class MemberBaseController extends Controller
                 }
             );
 
-
-            $this->worksuitePlugins = worksuite_plugins();
-            $this->invoiceSetting = invoice_setting();
-
             return $next($request);
         });
     }
 
-    public function logProjectActivity($projectId, $text)
-    {
-        $activity = new ProjectActivity();
-        $activity->project_id = $projectId;
-        $activity->activity = $text;
-        $activity->save();
-    }
-
+    
     public function logUserActivity($userId, $text)
     {
         $activity = new UserActivity();

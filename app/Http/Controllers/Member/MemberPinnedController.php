@@ -13,7 +13,7 @@ class MemberPinnedController extends MemberBaseController
         parent::__construct();
 
         $this->middleware(function ($request, $next) {
-            if (!in_array('projects', $this->user->modules)) {
+            if (!in_array('tasks', $this->user->modules)) {
                 abort(403);
             }
             return $next($request);
@@ -30,7 +30,6 @@ class MemberPinnedController extends MemberBaseController
     {
         $pinned = new Pinned();
         $pinned->task_id = $request->task_id;
-        $pinned->project_id = $request->project_id;
         $pinned->save();
 
         return Reply::success(__('messages.pinnedSuccess'));
@@ -46,9 +45,6 @@ class MemberPinnedController extends MemberBaseController
     {
         if($request->type == 'task'){
             Pinned::where('task_id', $id)->where('user_id', user()->id)->delete();
-        }
-        else{
-            Pinned::where('project_id', $id)->where('user_id', user()->id)->delete();
         }
 
         return Reply::success(__('messages.pinnedRemovedSuccess'));

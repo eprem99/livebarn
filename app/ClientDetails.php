@@ -17,7 +17,6 @@ class ClientDetails extends BaseModel
         'office',
         'cell',
         'note',
-        'category_id'
     ];
 
     protected $default = [
@@ -30,7 +29,6 @@ class ClientDetails extends BaseModel
         'note',
         'name',
         'email',
-        'category_id'
     ];
 
     protected $table = 'client_details';
@@ -38,10 +36,6 @@ class ClientDetails extends BaseModel
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-    public function clientCategory()
-    {
-        return $this->belongsTo(ClientCategory::class, 'category_id');
     }
     public function countries()
     {

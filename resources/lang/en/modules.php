@@ -1198,14 +1198,6 @@ return array(
     'subTask' => 'Sub Template Work Order',
     'comment' => 'Comment',
   ),
-  'logTimeSetting' =>
-  array(
-    'title' => 'Log Time Setting',
-    'project' => 'Project',
-    'task' => 'Work Order',
-    'autoStopTimerAfterOfficeTime' => 'Stop timer automatically after office time.',
-    'approvalRequired' => 'Timelog will require approval',
-  ),
   'taskCategory' =>
   array(
     'addTaskCategory' => 'Add Project',

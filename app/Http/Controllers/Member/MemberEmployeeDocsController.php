@@ -174,8 +174,7 @@ class MemberEmployeeDocsController extends MemberBaseController
      */
     public function show($id)
     {
-//        $this->lead = Lead::findOrFail($id);
-//        return view('admin.lead.lead-files.show', $this->data);
+
     }
 
     /**

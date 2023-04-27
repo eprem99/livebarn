@@ -82,18 +82,9 @@ class ClientBaseController extends Controller
             App::setLocale($this->user->locale);
             Carbon::setLocale($this->user->locale);
             setlocale(LC_TIME,$this->user->locale.'_'.strtoupper($this->user->locale));
-
-            $this->worksuitePlugins = worksuite_plugins();
             return $next($request);
         });
 
-    }
-
-    public function logProjectActivity($projectId, $text) {
-        $activity = new ProjectActivity();
-        $activity->project_id = $projectId;
-        $activity->activity = $text;
-        $activity->save();
     }
 
     public function logUserActivity($userId, $text) {

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Client;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\ModuleSetting;
-use App\Project;
-use App\ProjectFile;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -135,8 +133,6 @@ class ClientFilesController extends ClientBaseController
      */
     public function store(Request $request)
     {
-        $this->project = Project::with('members', 'members.user')->findOrFail($request->project_id);
-
         if ($request->hasFile('file')) {
             $file = new ProjectFile();
             $file->user_id = $this->user->id;

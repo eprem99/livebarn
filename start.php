@@ -200,60 +200,6 @@ if (!function_exists('asset_url')) {
     }
 }
 
-if (!function_exists('user_modules')) {
-
-
-    function user_modules()
-    {
-        if (!session()->has('user_modules')) {
-            $user = auth()->user();
-            if($user){
-                 $module = new \App\ModuleSetting();
-            
-                if ($user->hasRole('admin')) {
-                    $module = $module->where('type', 'admin');
-                } elseif ($user->hasRole('client')) {
-                    $module = $module->where('type', 'client');
-                } elseif ($user->hasRole('employee')) {
-                    $module = $module->where('type', 'employee');
-                }
-
-                $module = $module->where('status', 'active');
-                $module->select('module_name');
-
-                $module = $module->get();
-                $moduleArray = [];
-                foreach ($module->toArray() as $item) {
-                    array_push($moduleArray, array_values($item)[0]);
-                }
-
-                session(['user_modules' => $moduleArray]);
-            }
-           
-        }
-
-        return session('user_modules');
-    }
-}
-
-if (!function_exists('worksuite_plugins')) {
-
-    function worksuite_plugins()
-    {
-
-        if (!session()->has('worksuite_plugins')) {
-            $plugins = \Nwidart\Modules\Facades\Module::allEnabled();
-            // dd(array_keys($plugins));
-
-            foreach ($plugins as $plugin) {
-                Artisan::call('module:migrate', array($plugin, '--force' => true));
-            }
-
-            session(['worksuite_plugins' => array_keys($plugins)]);
-        }
-        return session('worksuite_plugins');
-    }
-}
 
 if (!function_exists('pusher_settings')) {
 
@@ -371,29 +317,6 @@ if (!function_exists('download_local_s3')) {
     }
 }
 
-if (!function_exists('invoice_setting')) {
-
-    function invoice_setting()
-    {
-        if (!session()->has('invoice_setting')) {
-
-            session(['invoice_setting' => \App\InvoiceSetting::first()]);
-        }
-        return session('invoice_setting');
-    }
-}
-
-if (!function_exists('time_log_setting')) {
-
-    function time_log_setting()
-    {
-        if (!session()->has('time_log_setting')) {
-            session(['time_log_setting' => \App\LogTimeFor::first()]);
-        }
-
-        return session('time_log_setting');
-    }
-}
 
 if (!function_exists('check_migrate_status')) {
 
@@ -416,9 +339,3 @@ if (!function_exists('check_migrate_status')) {
     }
 }
 
-if (!function_exists('module_enabled')) {
-    function module_enabled($moduleName)
-    {
-        return \Nwidart\Modules\Facades\Module::collections()->has($moduleName);
-    }
-}

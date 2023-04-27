@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Client;
 
 use App\Helper\Reply;
-use App\ModuleSetting;
-use App\Project;
 use App\SubTask;
 use App\Task;
 use App\TaskboardColumn;
 use App\TaskCategory;
-use App\Traits\ProjectProgress;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Tasks\StoreTask;
 use Yajra\DataTables\Facades\DataTables;
 
 class ClientTasksController extends ClientBaseController
 {
-    use ProjectProgress;
 
     public function __construct()
     {
@@ -72,13 +67,10 @@ class ClientTasksController extends ClientBaseController
 
         $task->start_date = Carbon::createFromFormat($this->global->date_format, $request->start_date)->format('Y-m-d');
         $task->due_date = Carbon::createFromFormat($this->global->date_format, $request->due_date)->format('Y-m-d');
-        $task->project_id = $request->project_id;
         $task->priority = $request->priority;
         $task->board_column_id = $taskBoardColumn->id;
         $task->task_category_id = $request->category_id;
-        $task->dependent_task_id = $request->has('dependent') && $request->dependent == 'yes' && $request->has('dependent_task_id') && $request->dependent_task_id != '' ? $request->dependent_task_id : null;
         $task->is_private = $request->has('is_private') && $request->is_private == 'true' ? 1 : 0;
-        $task->billable   = $request->has('billable') && $request->billable == 'true' ? 1 : 0;
         $task->created_by = $this->user->id;
         $task->site_id = $request->task_labels;
         $task->wo_type = $request->task_type;
@@ -89,8 +81,6 @@ class ClientTasksController extends ClientBaseController
         }
 
         $task->save();
-
-        $this->project = Project::findOrFail($task->project_id);
 
         return Reply::success(__('messages.taskCreatedSuccessfully'));
     }
@@ -123,7 +113,6 @@ class ClientTasksController extends ClientBaseController
             ->where('projects.client_id', '=', $this->user->id)
             ->select('tasks.*')
             ->get();
-        $this->project = Project::findOrFail($id);
         $this->employees  = User::allEmployees();
         $this->categories = TaskCategory::all();
 
@@ -186,7 +175,7 @@ class ClientTasksController extends ClientBaseController
         $taskId = $request->taskId;
         $status = $request->status;
 
-        $task = Task::with('project')->findOrFail($taskId);
+        $task = Task::findOrFail($taskId);
 
         if ($task->is_task_user || (!is_null($task->project_id) && $task->project->isProjectAdmin) || $this->user->can('edit_tasks') || $task->created_by == user()->id) {
             $taskBoardColumn = TaskboardColumn::where('slug', $status)->first();
@@ -202,23 +191,6 @@ class ClientTasksController extends ClientBaseController
             $task->save();
 
             $this->logTaskActivity($task->id, $this->user->id, "statusActivity", $task->board_column_id);
-
-            if ($task->project_id != null) {
-                if ($task->project->calculate_task_progress == "true") {
-                    //calculate project progress if enabled
-                    $this->calculateProjectProgress($task->project_id);
-                }
-                $this->project = Project::find($task->project_id);
-                if ($this->project->isProjectAdmin || $this->user->can('edit_tasks'))
-                    $this->project->tasks = Task::where('project_id', $this->project->id)->orderBy($request->sortBy, 'desc')->get();
-                else
-                    $this->project->tasks = Task::join('task_users', 'task_users.task_id', '=', 'tasks.id')
-                    ->where('project_id', $this->project->id)
-                    ->where('task_users.user_id', $this->user->id)
-                    ->select('tasks.*')
-                    ->orderBy($request->sortBy, 'desc')
-                    ->get();
-            }
 
             $this->task = $task;
 

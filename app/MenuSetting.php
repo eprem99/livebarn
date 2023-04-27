@@ -18,7 +18,7 @@ class MenuSetting extends Model
         $menus = Menu::where('setting_menu', 0)->get();
 
         $menuSettings = [];
-//dd($menus);
+
         foreach($settings as $key => $setting) {
             if(isset($setting->children)){
                 $children = $setting->children;
@@ -94,7 +94,7 @@ class MenuSetting extends Model
 
         // fetch all menus
         $menus = Menu::where('setting_menu', 1)->get();
-    //    dd($menus);
+
         $settingMenu = [];
 
         foreach($settings as $key => $setting) {
