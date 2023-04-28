@@ -101,14 +101,6 @@ class CreateTableMenu extends Migration
                     'setting_menu' => 0,
                 ],
                 [
-                    'menu_name' => 'taskBoard',
-                    'module' => 'tasks',
-                    'translate_name' => 'modules.tasks.taskBoard',
-                    'route' => 'admin.taskboard.index',
-                    'icon' => null,
-                    'setting_menu' => 0,
-                ],
-                [
                     'menu_name' => 'taskCalendar',
                     'module' => 'tasks',
                     'translate_name' => 'app.menu.taskCalendar',
@@ -117,13 +109,48 @@ class CreateTableMenu extends Migration
                     'setting_menu' => 0,
                 ],
                 [
-                    'menu_name' => 'tickets',
-                    'module' => 'tickets',
-                    'translate_name' => 'app.menu.tickets',
-                    'route' => 'admin.tickets.index',
-                    'icon' => 'ti-ticket',
+                    'menu_name' => 'taskNew',
+                    'module' => 'tasks',
+                    'translate_name' => 'app.menu.newwork',
+                    'route' => 'admin.all-tasks.create',
+                    'icon' => null,
                     'setting_menu' => 0,
                 ],
+                [
+                    'menu_name' => 'taskBoard',
+                    'module' => 'tasks',
+                    'translate_name' => 'modules.tasks.taskBoard',
+                    'route' => 'admin.taskboard.index',
+                    'icon' => null,
+                    'setting_menu' => 0,
+                ],
+
+                [
+                    'menu_name' => 'sites',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.taskLabel',
+                    'route' => null,
+                    'icon' => 'icon-doc',
+                    'setting_menu' => 0,
+                ],
+                [
+                    'menu_name' => 'sites',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.browsetaskLabel',
+                    'route' => 'admin.site.index',
+                    'icon' => null,
+                    'setting_menu' => 0,
+                ],
+                [
+                    'menu_name' => 'sites',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.newtaskLabel',
+                    'route' => 'admin.site.create',
+                    'icon' => null,
+                    'setting_menu' => 0,
+                ],
+                
+
                 [
                     'menu_name' => 'messages',
                     'module' => 'messages',
@@ -213,38 +240,6 @@ class CreateTableMenu extends Migration
                     'setting_menu' => 1,
                 ],
                 [
-                    'menu_name' => 'ticketSettings',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.ticketSettings',
-                    'route' => 'admin.ticket-agents.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
-                    'menu_name' => 'ticketAgents',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.ticketAgents',
-                    'route' => 'admin.ticket-agents.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
-                    'menu_name' => 'ticketTypes',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.ticketTypes',
-                    'route' => 'admin.ticketTypes.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
-                    'menu_name' => 'ticketChannel',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.ticketChannel',
-                    'route' => 'admin.ticketChannels.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
                     'menu_name' => 'replyTemplates',
                     'module' => 'visibleToAll',
                     'translate_name' => 'app.menu.replyTemplates',
@@ -293,14 +288,6 @@ class CreateTableMenu extends Migration
                     'setting_menu' => 1,
                 ],
                 [
-                    'menu_name' => 'customModule',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.customModule',
-                    'route' => 'admin.custom-modules.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
                     'menu_name' => 'rolesPermission',
                     'module' => 'visibleToAll',
                     'translate_name' => 'app.menu.rolesPermission',
@@ -341,18 +328,66 @@ class CreateTableMenu extends Migration
                     'setting_menu' => 1,
                 ],
                 [
-                    'menu_name' => 'updates',
-                    'module' => 'visibleToAll',
-                    'translate_name' => 'app.menu.updates',
-                    'route' => 'admin.update-settings.index',
-                    'icon' => null,
-                    'setting_menu' => 1,
-                ],
-                [
                     'menu_name' => 'themeSettings',
                     'module' => 'visibleToAll',
                     'translate_name' => 'app.menu.themeSettings',
                     'route' => 'admin.theme-settings.index',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'countrySettings',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.country',
+                    'route' => 'admin.theme-settings.index',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'browsecountry',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.browsecountry',
+                    'route' => 'admin.country.index',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'newcountry',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.newcountry',
+                    'route' => 'admin.country.create',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'state',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.state',
+                    'route' => 'admin.state.index',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'newstate',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.newstate',
+                    'route' => 'admin.state.create',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'woType',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.wotype',
+                    'route' => 'admin.wotype.index',
+                    'icon' => null,
+                    'setting_menu' => 1,
+                ],
+                [
+                    'menu_name' => 'sportType',
+                    'module' => 'visibleToAll',
+                    'translate_name' => 'app.menu.sporttype',
+                    'route' => 'admin.sporttype.index',
                     'icon' => null,
                     'setting_menu' => 1,
                 ],
@@ -369,43 +404,44 @@ class CreateTableMenu extends Migration
             $menuData->save();
         }
 
+
+
         $mainMenu = [
             ['id' => 1],
             [
                 'id' => 2,
                 'children' => [
                     ['id' => 3],
+                    ['id' => 5],
                     ['id' => 4],
+                    ['id' => 6],
                 ]
             ],
             [
-                'id' => 5,
+                'id' => 7,
                 'children' => [
-                    ['id' => 6],
-                    ['id' => 7],
                     ['id' => 8],
-                    ['id' => 9],
                     ['id' => 10],
+                    ['id' => 9],
                     ['id' => 11],
                 ]
             ],
-
             [
                 'id' => 12,
                 'children' => [
                     ['id' => 13],
                     ['id' => 14],
-                    ['id' => 15],
-                    ['id' => 16],
-                    ['id' => 17],
-                    ['id' => 18],
                 ]
             ],
+            ['id' => 17],
+        ];
 
+        $settingMenu = [
+            ['id' => 18],
+            ['id' => 19],
             [
-                'id' => 19,
+                'id' => 20,
                 'children' => [
-                    ['id' => 20],
                     ['id' => 21],
                     ['id' => 22],
                     ['id' => 23],
@@ -415,93 +451,31 @@ class CreateTableMenu extends Migration
             ['id' => 25],
             ['id' => 26],
             ['id' => 27],
-            ['id' => 28],
-            ['id' => 29],
             [
-                'id' => 30,
+                'id' => 28,
                 'children' => [
+                    ['id' => 29],
+                    ['id' => 30],
                     ['id' => 31],
-                    ['id' => 32],
-                    ['id' => 33],
-                    ['id' => 34],
-                    ['id' => 35],
                     ['id' => 36],
                 ]
             ],
+            ['id' => 32],
+            ['id' => 33],
+            ['id' => 34],
+            ['id' => 35],
             ['id' => 37],
-        ];
-
-        $settingMenu = [
-            ['id' => 38],
-            ['id' => 39],
             [
-                'id' => 40,
+                'id' => 38,
                 'children' => [
+                    ['id' => 39],
+                    ['id' => 40],
                     ['id' => 41],
-                    ['id' => 42],
-                    ['id' => 43],
-                    ['id' => 44],
+                    ['id' => 42]
                 ]
             ],
-            ['id' => 45],
-            [
-                'id' => 46,
-                'children' => [
-                    ['id' => 47],
-                    ['id' => 48],
-                ]
-            ],
-            ['id' => 49],
-            [
-                'id' => 50,
-                'children' => [
-                    ['id' => 51],
-                    ['id' => 52],
-                    ['id' => 53],
-                    ['id' => 54]
-                ]
-            ],
-            ['id' => 55],
-            ['id' => 56],
-            ['id' => 57],
-            ['id' => 58],
-            ['id' => 59],
-            [
-                'id' => 60,
-                'children' => [
-                    ['id' => 61],
-                    ['id' => 62],
-                    ['id' => 63],
-                    ['id' => 64]
-                ]
-            ],
-            ['id' => 65],
-            ['id' => 66],
-            ['id' => 67],
-            ['id' => 68],
-            [
-                'id' => 69,
-                'children' => [
-                    ['id' => 70],
-                    ['id' => 71],
-                    ['id' => 72]
-                ]
-            ],
-            ['id' => 73],
-            ['id' => 74],
-            [
-                'id' => 75,
-                'children' => [
-                    ['id' => 76],
-                    ['id' => 77],
-                    ['id' => 78],
-                    ['id' => 79],
-                    ['id' => 80],
-                    ['id' => 81],
-                ]
-            ],
-            ['id' => 82],
-            ['id' => 83],
+            ['id' => 43],
+            ['id' => 44],
         ];
 
         $menuSetting = new \App\MenuSetting();
