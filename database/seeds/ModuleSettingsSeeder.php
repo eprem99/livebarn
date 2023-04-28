@@ -24,12 +24,6 @@ class ModuleSettingsSeeder extends Seeder
 
         $module = new ModuleSetting();
         $module->type = 'employee';
-        $module->module_name = 'projects';
-        $module->status = 'active';
-        $module->save();
-
-        $module = new ModuleSetting();
-        $module->type = 'employee';
         $module->module_name = 'task calendar';
         $module->status = 'active';
         $module->save();
@@ -52,35 +46,11 @@ class ModuleSettingsSeeder extends Seeder
         $module->status = 'active';
         $module->save();
 
-        $module = new ModuleSetting();
-        $module->type = 'employee';
-        $module->module_name = 'leads';
-        $module->status = 'active';
-        $module->save();
-
 
         // Client Modules
         $module = new ModuleSetting();
         $module->type = 'client';
         $module->module_name = 'dashboard';
-        $module->status = 'active';
-        $module->save();
-
-        $module = new ModuleSetting();
-        $module->type = 'client';
-        $module->module_name = 'invoices';
-        $module->status = 'active';
-        $module->save();
-
-        $module = new ModuleSetting();
-        $module->type = 'client';
-        $module->module_name = 'projects';
-        $module->status = 'active';
-        $module->save();
-
-        $module = new ModuleSetting();
-        $module->type = 'client';
-        $module->module_name = 'issues';
         $module->status = 'active';
         $module->save();
 

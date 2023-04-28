@@ -18,11 +18,11 @@ class OrganisationSettingsTableSeeder extends Seeder
         $currency = Currency::where('currency_code', 'USD')->first();
 
         $setting = new Setting();
-        $setting->company_name = 'Worksuite';
+        $setting->company_name = 'Vecto';
         $setting->company_email = 'company@email.com';
         $setting->company_phone = '1234567891';
         $setting->address = 'Company address';
-        $setting->website = 'www.domain.com';
+        $setting->website = 'www.vecto.digital';
         $setting->currency_id = $currency->id;
         $setting->timezone = 'Asia/Kolkata';
         $setting->weather_key = '9f7190aeb882036f098ba016003ab300';

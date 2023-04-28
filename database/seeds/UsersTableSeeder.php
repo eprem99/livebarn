@@ -54,7 +54,6 @@ class UsersTableSeeder extends Seeder
         $user->roles()->attach($adminRole->id); // id only
         $user->roles()->attach($employeeRole->id); // id only
 
-        if (!App::environment('codecanyon')) {
             // Employee details
 
             $this->call(DepartmentTableSeeder::class);
@@ -76,7 +75,6 @@ class UsersTableSeeder extends Seeder
             $employee->employee_id = 'emp-'.$user->id;
             $employee->address = $faker->address;
             $employee->department_id = $faker->randomElement($this->getDepartment());
-            $employee->designation_id = $faker->randomElement($this->getDesignation());
             $employee->hourly_rate = $faker->numberBetween(15, 100);
             $employee->save();
 
@@ -105,27 +103,6 @@ class UsersTableSeeder extends Seeder
 
             // Assign Role
             $user->roles()->attach($clientRole->id);
-
-            // // Multiple admin create
-            // factory(\App\User::class, (int) $count)->create()->each(function ($user) use($faker, $adminRole) {
-            //     $employee = new \App\EmployeeDetails();
-            //     $employee->user_id = $user->id;
-            //     $employee->employee_id = 'emp-'.$user->id;
-            //     $employee->address = $faker->address;
-            //     $employee->hourly_rate = $faker->numberBetween(15, 100);
-            //     $employee->department_id = $faker->randomElement($this->getDepartment());
-            //     $employee->designation_id = $faker->randomElement($this->getDesignation());
-            //     $employee->save();
-
-            //     $search = new \App\UniversalSearch();
-            //     $search->searchable_id = $user->id;
-            //     $search->title = $user->name;
-            //     $search->route_name = 'admin.employees.show';
-            //     $search->save();
-
-            //     // Assign Role
-            //     $user->roles()->attach($adminRole->id);
-            // });
 
             // Multiple client create
             factory(User::class, (int) $count)->create()->each(function ($user) use($faker, $clientRole) {
@@ -161,7 +138,6 @@ class UsersTableSeeder extends Seeder
                 $employee->address = $faker->address;
                 $employee->hourly_rate = $faker->numberBetween(15, 100);
                 $employee->department_id = $faker->randomElement($this->getDepartment());
-                $employee->designation_id = $faker->randomElement($this->getDesignation());
                 $employee->hourly_rate = $faker->numberBetween(15, 100);
                 $employee->save();
 
@@ -169,17 +145,9 @@ class UsersTableSeeder extends Seeder
                 $user->roles()->attach($employeeRole->id);
             });
         }
-    }
-
-    public function getDepartment()
+   public function getDepartment()
     {
         return Team::inRandomOrder()
-            ->get()->pluck('id')->toArray();
-    }
-
-    public function getDesignation()
-    {
-        return \App\Designation::inRandomOrder()
             ->get()->pluck('id')->toArray();
     }
 

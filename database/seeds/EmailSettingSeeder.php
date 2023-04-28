@@ -19,13 +19,6 @@ class EmailSettingSeeder extends Seeder
             'slug' => str_slug('User Registration/Added by Admin')
         ]);
 
-        // When employee is added to project
-        \App\EmailNotificationSetting::create([
-            'setting_name' => 'Employee Assign to Project',
-            'send_email' => 'yes',
-            'slug' => str_slug('Employee Assign to Project')
-        ]);
-
         // When notice published by admin
         \App\EmailNotificationSetting::create([
             'setting_name' => 'New Notice Published',

@@ -20,14 +20,6 @@ class ThemeSettingsTableSeeder extends Seeder
         $theme->sidebar_text_color = "#cbcbcb";
         $theme->save();
 
-        // project admin panel
-        $theme = new ThemeSetting();
-        $theme->panel = "project_admin";
-        $theme->header_color = "#5475ed";
-        $theme->sidebar_color = "#292929";
-        $theme->sidebar_text_color = "#cbcbcb";
-        $theme->save();
-
         // employee panel
         $theme = new ThemeSetting();
         $theme->panel = "employee";

@@ -1,4 +1,4 @@
-]@if(isset($employees))
+@if(isset($employees))
     @foreach($employees as $member)
     <option value="{{ $member->id }}">{{ ucwords($member->name) }}</option>
     @endforeach

@@ -26,13 +26,5 @@ class RoleSeeder extends Seeder
         $role->perms()->sync([]);
         $role->attachPermissions($permissions);
 
-        // $user_id = ['2'];
-
-        // foreach($user_id as $user){
-        //     $roleUser = new RoleUser();
-        //     $roleUser->user_id = $user;
-        //     $roleUser->role_id = $roleId;
-        //     $roleUser->save();
-        // }
     }
 }
