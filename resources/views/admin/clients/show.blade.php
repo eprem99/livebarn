@@ -12,7 +12,6 @@
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard') }}">@lang('app.menu.home')</a></li>
                 <li><a href="{{ route('admin.clients.index') }}">@lang($pageTitle)</a></li>
-                <li class="active">@lang('app.menu.projects')</li>
             </ol>
         </div>
         <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12 text-right">
@@ -66,10 +65,6 @@
                                                 <p class="text-muted">{{ ucwords($clientDetail->office) }}</p>
                         
                                             </div>
-                                            <div class="col-md-6 col-xs-6 b-r"> <strong>@lang('modules.client.companyName')</strong> <br>
-                                                <p class="text-muted">{{ (!empty($clientDetail) && !empty($clientDetail->clientCategory))  ? $clientDetail->clientCategory->category_name : '--' }}</p>
-                                            </div>
-                                        </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-3 col-xs-6 b-r"> <strong>@lang('modules.stripeCustomerAddress.country')</strong> <br>

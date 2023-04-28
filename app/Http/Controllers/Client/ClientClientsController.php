@@ -105,7 +105,6 @@ class ClientClientsController extends ClientBaseController
     {
         $this->client = User::withoutGlobalScope('active')->findOrFail($id);
         $this->clientDetail = ClientDetails::where('user_id', '=', $this->client->id)->first();
-        $this->clientStats = $this->clientStats($id);
 
         if (!is_null($this->clientDetail)) {
             $this->clientDetail = $this->clientDetail->withCustomFields();

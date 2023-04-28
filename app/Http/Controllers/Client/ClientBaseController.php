@@ -75,8 +75,7 @@ class ClientBaseController extends Controller
             $this->user = user();
             $this->unreadNotificationCount = count($this->user->unreadNotifications);
             $this->modules = $this->user->modules;
-            // dd($this->modules);
-            // dd(in_array('meetings', $this->modules));
+            $this->worksuitePlugins = worksuite_plugins();
             $this->stickyNotes = StickyNote::where('user_id', $this->user->id)->orderBy('updated_at', 'desc')->get();
 
             App::setLocale($this->user->locale);

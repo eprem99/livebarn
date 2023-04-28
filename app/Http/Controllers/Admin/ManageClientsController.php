@@ -170,7 +170,6 @@ class ManageClientsController extends AdminBaseController
             $user->client_details()->create($data);
         }
 
-
         // To add custom fields data
         if ($request->get('custom_fields_data')) {
             $user->client_details->updateCustomFieldData($request->get('custom_fields_data'));

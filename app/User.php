@@ -351,6 +351,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return false;
     }
 
+    public function getModulesAttribute()
+    {
+        return user_modules();
+    }
+
     public function sticky()
     {
         return $this->hasMany(StickyNote::class, 'user_id')->orderBy('updated_at', 'desc');
@@ -414,6 +419,9 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 
     public function getUserOtherRoleAttribute()
     {
+        if (!module_enabled('RestAPI')) {
+            return true;
+        }
         $userRole = null;
         $roles = cache()->remember(
             'non-client-roles',
@@ -440,4 +448,5 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     {
         $this->notify(new ResetPassword($token));
     }
+
 }

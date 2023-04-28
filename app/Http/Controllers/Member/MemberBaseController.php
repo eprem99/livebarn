@@ -73,7 +73,7 @@ class MemberBaseController extends Controller
             $this->user = user();
             $this->unreadNotificationCount = count($this->user->unreadNotifications);
             $this->modules = $this->user->modules;
-
+            $this->worksuitePlugins = worksuite_plugins();
             App::setLocale($this->user->locale);
             Carbon::setUtf8(true);
             Carbon::setLocale($this->user->locale);

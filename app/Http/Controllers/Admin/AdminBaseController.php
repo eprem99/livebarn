@@ -68,7 +68,7 @@ class AdminBaseController extends Controller
             $this->user = user();
             $this->modules = $this->user->modules;
             $this->unreadNotificationCount = count($this->user->unreadNotifications);
-
+            $this->worksuitePlugins = worksuite_plugins();
             $this->stickyNotes = $this->user->sticky;
 
             return $next($request);
