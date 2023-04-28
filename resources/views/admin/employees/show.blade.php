@@ -125,7 +125,8 @@
                             <p class="text-muted">{{ (!is_null($employee->employeeDetail)) ? $employee->employeeDetail->city : 'NA'}}</p>
                         </div>
                         <div class="col-md-4 col-xs-6 b-r"> <strong>@lang('app.state')</strong> <br>
-                            <p class="text-muted">{{ (!is_null($employee->employeeDetail)) ? $state->names : 'NA'}}</p>
+
+                            <p class="text-muted">{{ (!is_null($employee->employeeDetail) && !is_null($state->names)) ? $state->names : 'NA'}}</p>
                         </div>
                     </div>
                     </div>
@@ -377,41 +378,6 @@
 
 </script>
 
-<script>
-    var table2;
 
-    function showTable2(){
-
-        var url = '{{ route('admin.employees.time-logs', [$employee->id]) }}';
-
-        table2 = $('#timelog-table').dataTable({
-            destroy: true,
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ajax: url,
-            deferRender: true,
-            language: {
-                "url": "<?php echo __("app.datatable") ?>"
-            },
-            "fnDrawCallback": function( oSettings ) {
-                $("body").tooltip({
-                    selector: '[data-toggle="tooltip"]'
-                });
-            },
-            "order": [[ 0, "desc" ]],
-            columns: [
-                { data: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'project_name', name: 'projects.project_name' },
-                { data: 'start_time', name: 'start_time' },
-                { data: 'end_time', name: 'end_time' },
-                { data: 'total_hours', name: 'total_hours' },
-                { data: 'memo', name: 'memo' }
-            ]
-        });
-    }
-
-    showTable2();
-</script>
 @endpush
 

@@ -1,4 +1,11 @@
 <?php
+/*
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
 
 use App\User;
 use Illuminate\Database\Seeder;

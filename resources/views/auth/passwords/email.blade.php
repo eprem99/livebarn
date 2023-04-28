@@ -1,7 +1,7 @@
+
 @extends('layouts.auth')
 
 @section('content')
-
 
     <form class="form-horizontal form-material"  method="POST" action="{{ route('password.email') }}">
         {{ csrf_field() }}

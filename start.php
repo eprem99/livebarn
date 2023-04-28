@@ -1,16 +1,12 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Register Namespaces And Routes
-|--------------------------------------------------------------------------
-|
-| When a module starting, this file will executed automatically. This helps
-| to register some namespaces like translator or view. Also this file
-| will load the routes file for each module. You may also modify
-| this file as you want.
-|
-*/
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Response;

@@ -29,7 +29,7 @@ class Setting extends BaseModel
     public function getLogoUrlAttribute()
     {
         if (is_null($this->logo)) {
-            return asset('img/worksuite-logo.png');
+            return asset('img/logo.png');
         }
         return asset_url('app-logo/' . $this->logo);
     }

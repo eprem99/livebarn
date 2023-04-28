@@ -24,6 +24,7 @@ class AddPhoneCountryCodeColumnUsersTable extends Migration
             $table->char('iso3', 3  )->nullable();
             $table->smallinteger('numcode')->nullable();
             $table->integer('phonecode');
+            $table->timestamps();
         });
 
         DB::table('countries')->delete();

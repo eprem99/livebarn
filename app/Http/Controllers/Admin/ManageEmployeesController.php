@@ -1,17 +1,20 @@
 <?php
-
+/*
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\EmployeesDataTable;
 use App\EmployeeDetails;
 use App\EmployeeDocs;
-// use App\EmployeeLeaveQuota;
 use App\Helper\Files;
 use App\Helper\Reply;
 use App\Http\Requests\Admin\Employee\StoreRequest;
 use App\Http\Requests\Admin\Employee\UpdateRequest;
-use App\Project;
-use App\ProjectMember;
 use App\Role;
 use App\RoleUser;
 use App\Task;
@@ -564,20 +567,6 @@ class ManageEmployeesController extends AdminBaseController
         return Reply::success(__('messages.roleAssigned'));
     }
 
-    public function assignProjectAdmin(Request $request)
-    {
-        $userId = $request->userId;
-        $projectId = $request->projectId;
-        $project = Project::findOrFail($projectId);
-        $project->project_admin = $userId;
-        $project->save();
-
-        return Reply::success(__('messages.roleAssigned'));
-    }
-
-
-
-
 
 
     public function docsCreate(Request $request, $id)
@@ -589,14 +578,6 @@ class ManageEmployeesController extends AdminBaseController
     public function freeEmployees()
     {
         if (\request()->ajax()) {
-
-            $whoseProjectCompleted = ProjectMember::join('projects', 'projects.id', '=', 'project_members.project_id')
-                ->join('users', 'users.id', '=', 'project_members.user_id')
-                ->select('users.*')
-                ->groupBy('project_members.user_id')
-                ->havingRaw("min(projects.completion_percent) = 100 and max(projects.completion_percent) = 100")
-                ->orderBy('users.id')
-                ->get();
 
             $notAssignedProject = User::join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
@@ -657,26 +638,6 @@ class ManageEmployeesController extends AdminBaseController
         $this->teams = Team::all();
         return view('admin.department.quick-create', $this->data);
     }
-
-    // public function leaveTypeEdit($id)
-    // {
-    //     $this->employeeLeavesQuota = User::with('leaveTypes', 'leaveTypes.leaveType')->withoutGlobalScope('active')->findOrFail($id)->leaveTypes;
-    //     return view('admin.employees.leave_type_edit', $this->data);
-    // }
-
-    // public function leaveTypeUpdate(Request $request, $id)
-    // {
-    //     if ($request->leaves < 0) {
-    //         return Reply::error('messages.leaveTypeValueError');
-    //     }
-    //     $type = EmployeeLeaveQuota::findOrFail($id);
-    //     $type->no_of_leaves = $request->leaves;
-    //     $type->save();
-
-    //     session()->forget('user');
-
-    //     return Reply::success(__('messages.leaveTypeAdded'));
-    // }
 
     public function country(Request $request, $id)
     {

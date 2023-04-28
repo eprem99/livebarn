@@ -1,6 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+nam/*
+* Project: Livebarn
+* Author: VECTO
+* Email: info@vecto.digital
+* Site: https://vecto.digital/
+* Last Modified: Friday, 28th April 2023
+*/espace App\Http\Controllers\Client;
 
 use App\Helper\Files;
 use App\Helper\Reply;

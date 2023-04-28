@@ -1,4 +1,11 @@
 <?php
+/*
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
 
 return [
 
@@ -12,7 +19,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'BTR',
+    'name' => 'Livebarn',
 
     /*
   |--------------------------------------------------------------------------

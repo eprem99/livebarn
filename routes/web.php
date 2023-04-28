@@ -1,15 +1,12 @@
 <?php
-
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
+
 
 Route::get('/taskboard-data', ['uses' => 'HomeController@taskBoardData'])->name('front.taskBoardData');
 Route::get('/taskboard/{encrypt}', ['uses' => 'HomeController@taskboard'])->name('front.taskboard');
@@ -95,7 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(
             ['prefix' => 'employees'], function () {
-
+                Route::get('employees/leaveTypeEdit/{id}', ['uses' => 'ManageEmployeesController@leaveTypeEdit'])->name('employees.leaveTypeEdit');
             Route::get('employees/free-employees', ['uses' => 'ManageEmployeesController@freeEmployees'])->name('employees.freeEmployees');
             Route::get('employees/docs-create/{id}', ['uses' => 'ManageEmployeesController@docsCreate'])->name('employees.docs-create');
             Route::get('employees/tasks/{userId}/{hideCompleted}', ['uses' => 'ManageEmployeesController@tasks'])->name('employees.tasks');
@@ -103,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('employees/assignRole', ['uses' => 'ManageEmployeesController@assignRole'])->name('employees.assignRole');
             Route::post('employees/assignProjectAdmin', ['uses' => 'ManageEmployeesController@assignProjectAdmin'])->name('employees.assignProjectAdmin');
             Route::get('employees/country/{id}', ['uses' => 'ManageEmployeesController@country'])->name('employees.country');
+            
             Route::resource('employees', 'ManageEmployeesController');
 
             Route::get('department/quick-create', ['uses' => 'ManageTeamsController@quickCreate'])->name('department.quick-create');
@@ -116,6 +114,12 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::resource('pinned', 'ManagePinnedController', ['only' => ['store', 'destroy']]);
+
+        Route::group(
+            ['prefix' => 'clients'], function() {
+            Route::get('projects/{id}', ['uses' => 'ManageClientsController@showProjects'])->name('clients.projects');
+        });
+
 
         Route::post('taskCategory/store-cat', ['uses' => 'ManageTaskCategoryController@storeCat'])->name('taskCategory.store-cat');
         Route::get('taskCategory/create-cat', ['uses' => 'ManageTaskCategoryController@createCat'])->name('taskCategory.create-cat');
@@ -434,7 +438,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('clients', 'ClientClientsController', ['except' => ['create']]);
         
          Route::group(
-             ['prefix' => 'projects'], function () {
+             ['prefix' => 'tasks'], function () {
             
             Route::post('tasks/change-status', ['uses' => 'ClientTasksController@changeStatus'])->name('tasks.changeStatus');
             Route::get('tasks/check-task/{taskID}', ['uses' => 'ClientTasksController@checkTask'])->name('tasks.checkTask');

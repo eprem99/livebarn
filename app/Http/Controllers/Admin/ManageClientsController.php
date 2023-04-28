@@ -1,5 +1,11 @@
 <?php
-
+/*
+ * Project: Livebarn
+ * Author: VECTO
+ * Email: info@vecto.digital
+ * Site: https://vecto.digital/
+ * Last Modified: Friday, 28th April 2023
+ */
 namespace App\Http\Controllers\Admin;
 
 use App\ClientDetails;
@@ -280,4 +286,22 @@ class ManageClientsController extends AdminBaseController
           return Reply::dataOnly(['data'=> $option]);
     }
 
+    public function clientStats($id)
+    {
+        $completedTaskColumn = TaskboardColumn::completeColumn();
+        $clientData = DB::table('users')
+            ->select(
+                DB::raw('(select count(tasks.id) from `tasks` inner join task_users on task_users.task_id=tasks.id where tasks.board_column_id=' . $completedTaskColumn->id . ' and task_users.user_id = ' . $id . ') as totalCompletedTasks'),
+                DB::raw('(select count(tasks.id) from `tasks` inner join task_users on task_users.task_id=tasks.id where task_users.user_id = ' . $id . ') as totalAllTasks'),
+                DB::raw('(select count(tasks.id) from `tasks` inner join task_users on task_users.task_id=tasks.id where tasks.board_column_id!=' . $completedTaskColumn->id . ' and task_users.user_id = ' . $id . ') as totalPendingTasks')
+            )
+            ->first();
+
+
+        $earnings = 0;
+
+
+        return [$clientData, $earnings];
+    }
+    
 }
